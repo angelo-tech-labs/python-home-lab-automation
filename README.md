@@ -1,21 +1,27 @@
 # Python Network Connectivity Mini Lab
 
-A small Python project I built to check whether the DNS TCP port on my Hyper-V domain controller is reachable.
+I wanted to put a bit of Python into practice using the Windows home lab I'd already built. For this mini lab, I wrote a small script to check whether I could reach my Hyper-V domain controller on TCP port 53.
 
 ## What the script does
 
-`lab_monitor.py` uses Python's built-in `socket` module to attempt one TCP connection to **DC01 (`10.10.10.10`) on port 53**, with a three-second timeout. It checks the result from `connect_ex()`, prints **SUCCESS** or **FAILED**, and closes the socket.
+I kept the first version simple. `lab_monitor.py` uses Python's built-in `socket` module to try connecting to **DC01 (`10.10.10.10`) on TCP port 53**, with a three-second timeout. It checks the result from `connect_ex()`, prints **SUCCESS** or **FAILED**, then closes the socket.
+
+## Writing the script
+
+This is the script in VS Code while I was putting it together on **21 November 2026**. It shows the target address, timeout and `if`/`else` check. The terminal at this stage shows an earlier run that printed the starting message; the completed connectivity tests are below.
+
+![Python connectivity script being written in VS Code](<screenshots/Screenshot 2026-11-21 195108.png>)
 
 ## What I tested
 
-I ran the script from my Windows host against my Windows Server 2025 VM:
+I ran the script from my Windows host against my Windows Server 2025 VM. With DC01 switched off, the check failed. After I started the VM, I ran it again and got a successful connection:
 
 | Test | Observed result |
 |---|---|
 | DC01 was offline | `FAILED: DC01 DNS TCP port 53 is not reachable.` |
 | DC01 was started | `SUCCESS: DC01 DNS TCP port 53 is reachable!` |
 
-The screenshot shows both runs from the completed lab on **21 November 2026**.
+Seeing both results helped me connect what the code was doing with what was happening in my lab. This screenshot shows both runs from **21 November 2026**.
 
 ![Python terminal showing failed and successful TCP connectivity checks](screenshots/01-python-connectivity-test.png)
 
@@ -27,7 +33,7 @@ Install Python 3 and run the following from the project folder:
 python lab_monitor.py
 ```
 
-The host needs a route to the lab network. Change `server_ip` in the script if your target uses a different address. No third-party packages are required.
+Your machine needs to be able to reach the lab network. If your server has a different address, change `server_ip` in the script. There's nothing extra to install beyond Python 3.
 
 ## What I learned
 
@@ -37,6 +43,6 @@ The host needs a route to the lab network. Change `server_ip` in the script if y
 - Using an `if`/`else` statement to report a connection result.
 - Comparing failed and successful checks while troubleshooting VM availability.
 
-This is a single TCP reachability check, not a continuous monitor. Reaching TCP port 53 does **not** verify DNS name resolution or UDP DNS traffic. A failed connection can have several causes; in this test, starting DC01 restored connectivity.
+The script runs one TCP connectivity check each time I start it. A successful result tells me TCP port 53 is reachable; checking DNS name resolution or UDP DNS traffic would need a separate test. In this lab, starting DC01 restored connectivity.
 
-**Status: mini lab complete.** The script is the original version used for these tests.
+**Mini lab complete — 21 November 2026.** A small first step into Python automation, built and tested against my own home lab. The script here is the original version I used.
