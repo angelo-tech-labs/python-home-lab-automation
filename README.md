@@ -25,15 +25,17 @@ Seeing both results helped me connect what the code was doing with what was happ
 
 ![Python terminal showing failed and successful TCP connectivity checks](screenshots/01-python-connectivity-test.png)
 
-## Run it
+## Running the Script
 
-Install Python 3 and run the following from the project folder:
+I ran the Python script on my Windows 11 PC using VS Code, connecting to my Windows Server 2025 virtual machine through Hyper-V.
+
+To run the script, I used:
 
 ```powershell
 python lab_monitor.py
 ```
 
-Your machine needs to be able to reach the lab network. If your server has a different address, change `server_ip` in the script. There's nothing extra to install beyond Python 3.
+The script attempted a TCP connection to DC01 on port 53 and displayed whether the connection succeeded or failed.
 
 ## What I learned
 
